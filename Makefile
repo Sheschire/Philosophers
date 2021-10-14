@@ -6,16 +6,20 @@
 #    By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:16:17 by tlemesle          #+#    #+#              #
-#    Updated: 2021/10/06 15:17:38 by tlemesle         ###   ########.fr        #
+#    Updated: 2021/10/14 15:12:00 by tlemesle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS			= srcs/test.c
+SRCS			= srcs/main.c\
+				  srcs/utils.c\
+				  srcs/simulation.c\
+				  srcs/init.c
+
 OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -I./includes
+CFLAGS			= -Wall -Wextra -Werror  -fsanitize=thread -I./includes
 PTHREAD			= -lpthread
 
 NAME			= philo
