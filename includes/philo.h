@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:13:19 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 15:53:00 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:38:21 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct		s_data
 	int				t_eat;
 	int				t_sleep;
 	int				nb_to_eat;
+	int				everyone_alive;
 	t_philo			philos[250];
 	pthread_mutex_t	forks[250];
 	pthread_mutex_t	prompt;

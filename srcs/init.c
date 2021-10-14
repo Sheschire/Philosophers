@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:23:07 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 14:27:26 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:38:45 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_data(t_data *d, char **av)
 	d->nb_to_eat = -1;
 	if (av[5])
 		d->nb_to_eat = ft_atoi(av[5]);
+	d->everyone_alive = 1;
 }
 
 void	init_philos(t_data *d)

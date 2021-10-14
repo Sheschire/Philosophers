@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:03:00 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 16:19:58 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:38:36 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	monitor(t_data *d)
 
 void	*routine(t_data *d)
 {
-	while (d->philos[id].alive && )
+	while (d->philos[id].alive && d->everyone_alive)
 	{
 		pthread_mutex_lock(&d->forks[id]);
 		pthread_mutex_lock(&d->forks[id + 1]);
