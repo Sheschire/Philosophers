@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 14:16:02 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 16:42:28 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:43:54 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int ac, char **av)
 	init_philos(&d);
 	start_simulation(&d);
 	while (++id <= d.nb_philo)
-		if (pthread_join(d.philos[id].thread_id))
+		if (pthread_join(d.philos[id].thread_id, NULL))
 			_err("Failed in joining thread.");
 	return (0);
 }

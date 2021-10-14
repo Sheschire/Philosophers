@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 11:12:20 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 16:01:18 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/14 16:43:24 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ int	ft_isdigit(int c)
 	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
-}
-
-void	_usleep()
-{
-	
 }
 
 int	ft_atoi(const char *str)
