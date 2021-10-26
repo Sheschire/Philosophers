@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:23:07 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 16:38:45 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/26 16:15:42 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_philos(t_data *d)
 {
 	int	id;
 
-	id = 0;
+	id = -1;
 	while (++id <= d->nb_philo)
 	{
 		d->philos[id].id = id;

@@ -6,7 +6,7 @@
 #    By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/06 15:16:17 by tlemesle          #+#    #+#              #
-#    Updated: 2021/10/14 15:12:00 by tlemesle         ###   ########.fr        #
+#    Updated: 2021/10/26 16:17:34 by tlemesle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror  -fsanitize=thread -I./includes
+CFLAGS			= -Wall -Wextra -Werror -I./includes
 PTHREAD			= -lpthread
 
 NAME			= philo
