@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:03:00 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 11:47:54 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 14:57:56 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ int	monitor(t_data *d)
 	return (1);
 }
 
-void	*routine(t_philo *philo)
+void	*routine(void *thread_philo)
 {
+	t_philo	*philo;
 	t_data	*d;
 
-	d = philo->d;
+	philo = (void *)thread_philo;
 	// while (d->philos[id].alive && d->everyone_alive)
 	// {
 		// pthread_mutex_lock(&d->forks[d->philor_fork_id]);
@@ -66,21 +67,14 @@ void	start_simulation(t_data *d)
 	int	id;
 
 	id = -1;
-	// if (pthread_create(&d->philos[5].thread_id, NULL, routine(&(d->philos[5])), d))
-	// 	_err("Failed to create a thread. (Philos)");
 	while (++id < d->nb_philo)
-	{
 		if (id % 2 == 0)
-		{
-			printf("id = %d\n", d->philos[id].id);
-			if (pthread_create(&d->philos[id].thread_id, NULL, routine(&(d->philos[id])), d))
+			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
 				_err("Failed to create a thread. (Philos)");
-		}
-	}
-	// id = -1;
-	// usleep(20);
-	// while (++id < d->nb_philo)
-	// 	if (id % 2 == 1)
-	// 		if (pthread_create(&d->philos[id].thread_id, NULL, routine(&(d->philos[id])), d))
-	// 			_err("Failed to create a thread. (Philos)");
+	id = -1;
+	usleep(20);
+	while (++id < d->nb_philo)
+		if (id % 2 == 1)
+			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
+				_err("Failed to create a thread. (Philos)");
 }

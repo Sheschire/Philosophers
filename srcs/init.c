@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:23:07 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 11:38:03 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 13:51:39 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	init_data(t_data *d, char **av)
 	if (av[5])
 		d->nb_to_eat = ft_atoi(av[5]);
 	d->everyone_alive = 1;
+	d->philos = (t_philo *)malloc(sizeof(t_philo) * d->nb_philo);
+	if (!d->philos)
+		_err("Malloc");
+	d->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * d->nb_philo);
+	if (!d->forks)
+		_err("Malloc");
 }
 
 void	init_philos(t_data *d)
@@ -39,7 +45,7 @@ void	init_philos(t_data *d)
 		d->philos[id].ate = 0;
 		d->philos[id].alive = 1;
 		d->philos[id].nb_meal = 0;
-		d->philos[id].l_fork_id = id + 1;
+		d->philos[id].l_fork_id = (id + 1) % d->nb_philo;
 		d->philos[id].r_fork_id = id;
 		d->philos[id].d = d;
 		if (pthread_mutex_init(&d->forks[id], NULL))
