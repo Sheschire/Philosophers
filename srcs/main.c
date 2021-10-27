@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 14:16:02 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 15:37:56 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 16:00:08 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int main(int ac, char **av)
 		_err("Arguments are not valids.");
 	init_data(&d, av);
 	init_philos(&d);
-	start_simulation(&d);
+	unsigned int time;
+	
+	time = get_time();
+	printf("%u\n", time);
+//	start_simulation(&d);
 	// while (++id < d.nb_philo)
 	// 	if (pthread_join(d.philos[id].thread_id, NULL))
 	// 		_err("Failed in joining thread.");

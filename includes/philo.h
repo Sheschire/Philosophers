@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:13:19 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 13:49:35 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:59:23 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
 void	_err();
 void	_putstr(char *s);
+unsigned int	get_time(void);
 
 #endif

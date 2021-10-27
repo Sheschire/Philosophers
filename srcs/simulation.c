@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:03:00 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 15:44:58 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:53:36 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	monitor(t_data *d)
 		if (d->philos[id].alive == 0)
 		{
 			pthread_mutex_lock(&d->prompt);
-			//prompt(d, id, "has died");
+			prompt(d, id, "has died");
 			pthread_mutex_unlock(&d->prompt);
 			end_simulation(d);
 		}
@@ -73,7 +73,7 @@ void	start_simulation(t_data *d)
 			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
 				_err("Failed to create a thread. (Philos)");
 	id = -1;
-	usleep(15000);
+	usleep(1500);
 	while (++id < d->nb_philo)
 		if (id % 2 == 1)
 			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))

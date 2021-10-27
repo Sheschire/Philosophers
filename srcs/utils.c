@@ -6,11 +6,21 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 11:12:20 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/26 16:42:38 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:59:15 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+unsigned int	get_time(void)
+{
+	struct timeval	s_time;
+	unsigned int	time;
+	
+	time = (unsigned int)gettimeofday(&s_time, NULL);
+	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
+	return (time);
+}
 
 void	_err(char *s)
 {
