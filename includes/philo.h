@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:13:19 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/14 16:38:21 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 11:17:20 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <sys/time.h>
 # include <stdio.h>
 
+struct				s_data;
+
 typedef struct		s_philo
 {
 	int				id;
@@ -29,6 +31,7 @@ typedef struct		s_philo
 	int				r_fork_id;
 	struct timeval	t_last_meal;
 	pthread_t		thread_id;
+	struct s_data	*d;
 }					t_philo;
 
 typedef struct		s_data

@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:23:07 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/26 16:15:42 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 11:38:03 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_philos(t_data *d)
 	int	id;
 
 	id = -1;
-	while (++id <= d->nb_philo)
+	while (++id < d->nb_philo)
 	{
 		d->philos[id].id = id;
 		d->philos[id].ate = 0;
@@ -41,6 +41,7 @@ void	init_philos(t_data *d)
 		d->philos[id].nb_meal = 0;
 		d->philos[id].l_fork_id = id + 1;
 		d->philos[id].r_fork_id = id;
+		d->philos[id].d = d;
 		if (pthread_mutex_init(&d->forks[id], NULL))
 			_err("Mutex init failed. (forks)");
 	}
