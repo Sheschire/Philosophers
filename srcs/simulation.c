@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:03:00 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 14:57:56 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/10/27 15:44:58 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	prompt(t_data *d, int id, char *s)
 	pthread_mutex_lock(&d->prompt);
 	printf("timestamp ");
 	printf("%d ", id);
-	printf("%s", s);
+	printf("%s\n", s);
 	pthread_mutex_unlock(&d->prompt);
 }
 
@@ -25,13 +25,13 @@ int	monitor(t_data *d)
 {
 	int	id;
 	
-	id = 0;
-	while (++id <= d->nb_philo)
+	id = -1;
+	while (++id < d->nb_philo)
 	{
 		if (d->philos[id].alive == 0)
 		{
 			pthread_mutex_lock(&d->prompt);
-			printf("timestamp_in_ms %d died", id);
+			//prompt(d, id, "has died");
 			pthread_mutex_unlock(&d->prompt);
 			end_simulation(d);
 		}
@@ -42,23 +42,24 @@ int	monitor(t_data *d)
 void	*routine(void *thread_philo)
 {
 	t_philo	*philo;
-	t_data	*d;
-
-	philo = (void *)thread_philo;
-	// while (d->philos[id].alive && d->everyone_alive)
-	// {
-		// pthread_mutex_lock(&d->forks[d->philor_fork_id]);
-		// prompt(d, id, "has taken a fork\n");
-	 	// pthread_mutex_lock(&d->forks[id + 1]);
-		// prompt(d, id, "has taken a fork\n");
-		// prompt(d, id, "is eating\n");
-	 	// usleep(d->t_eat);
-	 	// pthread_mutex_unlock(&d->forks[id]);
-	 	// pthread_mutex_unlock(&d->forks[id + 1]);
-		// prompt(d, id, "is sleeping\n");
-		// usleep(d->t_sleep);
-		// prompt(d, id, "is thinking\n");
-	// }
+	t_data *d;
+	
+	philo = (t_philo *)thread_philo;
+	d = philo->d;
+	while (monitor(d))
+	{
+		pthread_mutex_lock(&d->forks[philo->r_fork_id]);
+		prompt(d, philo->id, "has taken a fork");
+	 	pthread_mutex_lock(&d->forks[philo->l_fork_id]);
+		prompt(d, philo->id, "has taken a fork");
+		prompt(d, philo->id, "is eating");
+	 	usleep(d->t_eat);
+	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
+	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
+		prompt(d, philo->id, "is sleeping");
+		usleep(d->t_sleep);
+		prompt(d, philo->id, "is thinking");
+	}
 	return (NULL);
 }
 
@@ -72,7 +73,7 @@ void	start_simulation(t_data *d)
 			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
 				_err("Failed to create a thread. (Philos)");
 	id = -1;
-	usleep(20);
+	usleep(15000);
 	while (++id < d->nb_philo)
 		if (id % 2 == 1)
 			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
