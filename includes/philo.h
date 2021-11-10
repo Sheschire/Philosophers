@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:13:19 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/10/27 15:59:23 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/11/10 09:46:49 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct		s_philo
 	int				nb_meal;
 	int				l_fork_id;
 	int				r_fork_id;
-	struct timeval	t_last_meal;
+	unsigned int	start_time;
+	unsigned int	last_meal;
 	pthread_t		thread_id;
 	struct s_data	*d;
 }					t_philo;
@@ -62,5 +63,6 @@ int	ft_isdigit(int c);
 void	_err();
 void	_putstr(char *s);
 unsigned int	get_time(void);
+unsigned int	time_since_beginning(t_philo *philo);
 
 #endif
