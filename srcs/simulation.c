@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:03:00 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/11/10 09:28:11 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/11/12 23:41:17 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	*routine(void *thread_philo)
 	 	pthread_mutex_lock(&d->forks[philo->l_fork_id]);
 		prompt(d, philo->id, "has taken a fork");
 		prompt(d, philo->id, "is eating");
+		philo->ate = 1;
+		philo->last_meal = time_since_beginning(philo);
 	 	usleep(d->t_eat);
 	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
