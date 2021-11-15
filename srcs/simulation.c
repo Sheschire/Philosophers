@@ -27,17 +27,24 @@ void	prompt(t_data *d, int id, char *s)
 int	monitor(t_data *d)
 {
 	int	id;
-	
+	unsigned int time;
+
+	time = d->t_start;
 	id = -1;
 	while (++id < d->nb_philo)
 	{
-		if (d->philos[id].alive == 0)
+		// printf("time = %u\nlast_meal = %u\n", time, d->philos[id].last_meal);
+		// printf("DELAY = %u\n", d->philos[id].last_meal - time);
+		if (d->philos[id].last_meal - time > d->t_die)
 		{
-			pthread_mutex_lock(&d->prompt);
-			prompt(d, id, "has died");
-			pthread_mutex_unlock(&d->prompt);
-			end_simulation(d);
+			printf("MORRRRRRRRRRRT\n");
 		}
+		// {
+		// 	pthread_mutex_lock(&d->prompt);
+		// 	prompt(d, id, "has died");
+		// 	pthread_mutex_unlock(&d->prompt);
+		// 	end_simulation(d);
+		// }
 	}
 	return (1);
 }
@@ -57,7 +64,7 @@ void	*routine(void *thread_philo)
 		prompt(d, philo->id, "has taken a fork");
 		prompt(d, philo->id, "is eating");
 		philo->ate = 1;
-		philo->last_meal = time_since_beginning(philo);
+		philo->last_meal = get_time();
 	 	usleep(d->t_eat);
 	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
@@ -88,5 +95,4 @@ void	start_simulation(t_data *d)
 		id += 2;
 		usleep(100);
 	}
-
 }

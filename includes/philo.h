@@ -38,9 +38,9 @@ typedef struct		s_philo
 typedef struct		s_data
 {
 	int				nb_philo;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
+	unsigned int	t_die;
+	unsigned int	t_eat;
+	unsigned int	t_sleep;
 	unsigned int	t_start;
 	int				nb_to_eat;
 	int				everyone_alive;

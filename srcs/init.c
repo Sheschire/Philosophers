@@ -49,6 +49,7 @@ void	init_philos(t_data *d)
 		d->philos[id].l_fork_id = (id + 1) % d->nb_philo;
 		d->philos[id].r_fork_id = id;
 		d->philos[id].d = d;
+		d->philos[id].last_meal = get_time();
 		d->philos[id].start_time = get_time();
 		if (pthread_mutex_init(&d->forks[id], NULL))
 			_err("Mutex init failed. (forks)");

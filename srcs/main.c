@@ -15,7 +15,9 @@
 int main(int ac, char **av)
 {
 	t_data	d;
-	
+	// int	id;
+
+	// id = -1;
 	if (!check_arg(ac, av))
 		_err("Arguments are not valids.");
 	init_data(&d, av);
@@ -24,6 +26,6 @@ int main(int ac, char **av)
 	start_simulation(&d);
 	// while (++id < d.nb_philo)
 	// 	if (pthread_join(d.philos[id].thread_id, NULL))
-	// 		_err("Failed in joining thread.");
+	//  		_err("Failed in joining thread.");
 	return (0);
 }
