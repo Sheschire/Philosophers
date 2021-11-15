@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 void	init_data(t_data *d, char **av)
 {
@@ -26,6 +26,7 @@ void	init_data(t_data *d, char **av)
 	if (av[5])
 		d->nb_to_eat = ft_atoi(av[5]);
 	d->everyone_alive = 1;
+	d->t_start = get_time();
 	d->philos = (t_philo *)malloc(sizeof(t_philo) * d->nb_philo);
 	if (!d->philos)
 		_err("Malloc");

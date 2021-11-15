@@ -10,12 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 void	prompt(t_data *d, int id, char *s)
 {
+	int	timestamp;
+	
+	timestamp = get_time() - d->t_start;
 	pthread_mutex_lock(&d->prompt);
-	printf("timestamp ");
+	printf("%u ", timestamp);
 	printf("%d ", id);
 	printf("%s\n", s);
 	pthread_mutex_unlock(&d->prompt);
@@ -69,15 +72,21 @@ void	start_simulation(t_data *d)
 {
 	int	id;
 
-	id = -1;
-	while (++id < d->nb_philo)
-		if (id % 2 == 0)
-			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
-				_err("Failed to create a thread. (Philos)");
-	id = -1;
-	usleep(1500);
-	while (++id < d->nb_philo)
-		if (id % 2 == 1)
-			if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
-				_err("Failed to create a thread. (Philos)");
+	id = 0;
+	while (id < d->nb_philo)
+	{
+		if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
+			_err("Failed to create a thread. (Philos)");
+		id += 2;
+		usleep(100);
+	}
+	id = 1;
+	while (id < d->nb_philo)
+	{
+		if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
+			_err("Failed to create a thread. (Philos)");
+		id += 2;
+		usleep(100);
+	}
+
 }

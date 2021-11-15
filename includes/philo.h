@@ -41,6 +41,7 @@ typedef struct		s_data
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
+	unsigned int	t_start;
 	int				nb_to_eat;
 	int				everyone_alive;
 	t_philo			*philos;

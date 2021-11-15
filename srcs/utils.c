@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 void	print_debug(t_data *d)
 {
@@ -52,7 +52,8 @@ unsigned int	get_time(void)
 	unsigned int	time;
 	
 	time = (unsigned int)gettimeofday(&s_time, NULL);
-	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
+//	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
+	time = (unsigned int)s_time.tv_usec;
 	return (time);
 }
 
