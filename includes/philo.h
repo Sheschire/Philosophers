@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:13:19 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/11/12 22:53:53 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:37:32 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void	_putstr(char *s);
 unsigned int	get_time(void);
 unsigned int	time_since_beginning(t_philo *philo);
 void	print_debug(t_data *d);
+void	usleep_opti(unsigned int ms_time);
 
 #endif

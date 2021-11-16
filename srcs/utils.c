@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 11:12:20 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/11/12 23:02:44 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/11/16 15:56:40 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,23 @@ unsigned int	get_time(void)
 	unsigned int	time;
 	
 	time = (unsigned int)gettimeofday(&s_time, NULL);
-//	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
-	time = (unsigned int)s_time.tv_usec;
+	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
 	return (time);
 }
 
 unsigned int	time_since_beginning(t_philo *philo)
 {
 	return (get_time() - philo->start_time);
+}
+
+void	usleep_opti(unsigned int ms_time)
+{
+	unsigned int start;
+
+    start = 0;
+    start = get_time();
+    while ((get_time() - start) < ms_time)
+        usleep(ms_time / 10);
 }
 
 void	_err(char *s)
