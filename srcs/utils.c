@@ -54,6 +54,7 @@ void	end_simulation(t_data *d)
 	}
 	pthread_mutex_destroy(&d->prompt);
 	pthread_mutex_destroy(&d->die_prompt);
+	pthread_mutex_destroy(&d->update_nb_meal);
 	exit(0);
 }
 

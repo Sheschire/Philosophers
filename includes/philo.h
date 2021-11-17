@@ -24,7 +24,6 @@ struct				s_data;
 typedef struct		s_philo
 {
 	int				id;
-	int				ate;
 	int				alive;
 	int				nb_meal;
 	int				l_fork_id;
@@ -43,8 +42,10 @@ typedef struct		s_data
 	unsigned int	t_sleep;
 	unsigned int	t_start;
 	int				nb_to_eat;
+	int				g_nb_meal;
 	t_philo			*philos;
 	pthread_t		monitor;
+	pthread_mutex_t	update_nb_meal;
 	pthread_mutex_t	die_prompt;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prompt;

@@ -15,10 +15,8 @@
 void	init_data(t_data *d, char **av)
 {
 	d->nb_philo = ft_atoi(av[1]);
-	if (d->nb_philo > 250)
+	if (d->nb_philo > 200)
 		_err("Too many Philosophers for the simulation.");
-	if (d->nb_philo < 2)
-		_err("Not enough Philosophers for the simulation.");
 	d->t_die = ft_atoi(av[2]);
 	d->t_eat = ft_atoi(av[3]);
 	d->t_sleep = ft_atoi(av[4]);
@@ -42,7 +40,6 @@ void	init_philos(t_data *d)
 	while (++id < d->nb_philo)
 	{
 		d->philos[id].id = id;
-		d->philos[id].ate = 0;
 		d->philos[id].alive = 1;
 		d->philos[id].nb_meal = 0;
 		d->philos[id].l_fork_id = (id + 1) % d->nb_philo;
@@ -56,4 +53,6 @@ void	init_philos(t_data *d)
 		_err("Mutex init failed. (prompt)");
 	if (pthread_mutex_init(&d->die_prompt, NULL))
 		_err("Mutex init failed. (die_prompt)");
+	if (pthread_mutex_init(&d->update_nb_meal, NULL))
+		_err("Mutex init failed. (update_nb_meal)");
 }

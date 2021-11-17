@@ -42,9 +42,23 @@ void	*monitor(void *thread_philo)
 			prompt(d, philo->id, "died");
 			end_simulation(d);
 		}
+		if (d->g_nb_meal == d->nb_philo)
+			end_simulation(d);
 		usleep_opti(10);
 	}
 	return (NULL);
+}
+
+
+void	update_nb_meal(t_data *d, t_philo *philo)
+{
+	philo->nb_meal++;
+	if (philo->nb_meal == d->nb_to_eat)
+	{
+		pthread_mutex_lock(&d->update_nb_meal);
+		d->g_nb_meal++;
+		pthread_mutex_unlock(&d->update_nb_meal);
+	}
 }
 
 void	*routine(void *thread_philo)
@@ -63,8 +77,8 @@ void	*routine(void *thread_philo)
 	 	pthread_mutex_lock(&d->forks[philo->l_fork_id]);
 		prompt(d, philo->id, "has taken a fork");
 		prompt(d, philo->id, "is eating");
-		philo->ate = 1;
 		philo->last_meal = get_time();
+		update_nb_meal(d, philo);
 	 	usleep_opti(d->t_eat);
 	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
