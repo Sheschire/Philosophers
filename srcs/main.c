@@ -22,10 +22,13 @@ int main(int ac, char **av)
 		_err("Arguments are not valids.");
 	init_data(&d, av);
 	init_philos(&d);
-//	print_debug(&d);
 	start_simulation(&d);
 	while (++id < d.nb_philo)
+	{
 		if (pthread_join(d.philos[id].thread_id, NULL))
-	 		_err("Failed in joining thread.");
+	 		_err("Failed in joining thread. (Philos)");
+		if (pthread_join(d.monitor, NULL))
+	 		_err("Failed in joining thread. (Monitor)");
+	}
 	return (0);
 }

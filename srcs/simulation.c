@@ -15,7 +15,7 @@
 void	prompt(t_data *d, int id, char *s)
 {
 	int	timestamp;
-	
+
 	timestamp = get_time() - d->t_start;
 	pthread_mutex_lock(&d->prompt);
 	printf("%u ", timestamp);
@@ -24,23 +24,27 @@ void	prompt(t_data *d, int id, char *s)
 	pthread_mutex_unlock(&d->prompt);
 }
 
-int	monitor(t_data *d)
+void	*monitor(void *thread_philo)
 {
-	int	id;
+	t_philo *philo;
+	t_data *d;
 	unsigned int time;
 
-	id = -1;
-	while (++id < d->nb_philo)
+	philo = (t_philo *)thread_philo;
+	d = philo->d;
+	while (philo->alive)
 	{
 		time = get_time();
-		if (time - d->philos[id].last_meal > d->t_die)
+		if (time - philo->last_meal > d->t_die)
 		{
-			prompt(d, id, "died");
-			exit(0);
-			//end_simulation(d);
+			philo->alive = 0;
+			pthread_mutex_lock(&d->die_prompt);
+			prompt(d, philo->id, "died");
+			end_simulation(d);
 		}
+		usleep_opti(10);
 	}
-	return (1);
+	return (NULL);
 }
 
 void	*routine(void *thread_philo)
@@ -50,7 +54,9 @@ void	*routine(void *thread_philo)
 	
 	philo = (t_philo *)thread_philo;
 	d = philo->d;
-	while (monitor(d))
+	if (pthread_create(&d->monitor, NULL, &monitor, philo))
+			_err("Failed to create a thread. (Monitor)");
+	while (philo->alive)
 	{
 		pthread_mutex_lock(&d->forks[philo->r_fork_id]);
 		prompt(d, philo->id, "has taken a fork");

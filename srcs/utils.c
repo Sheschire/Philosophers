@@ -12,40 +12,6 @@
 
 #include "../includes/philo.h"
 
-void	print_debug(t_data *d)
-{
-	int	id;
-
-	printf("--------------------\n");
-	printf("|       DATA       |\n");
-	printf("--------------------\n");
-	printf("nb_philo = %d\n", d->nb_philo);
-	printf("t_die = %d\n", d->t_die);
-	printf("t_eat = %d\n", d->t_eat);
-	printf("t_sleep = %d\n", d->t_sleep);
-	printf("nb_to_eat = %d\n", d->nb_to_eat);
-	printf("everyon_alive = %d\n\n", d->everyone_alive);
-	printf("--------------------\n");
-	printf("|       PHILO      |\n");
-	printf("--------------------\n");
-
-	id = -1;
-	while (++id < d->nb_philo)
-	{
-		printf("--------------------\n");
-		printf("      Philo n.%d     \n", id);
-		printf("--------------------\n");
-		printf("d->philos[%d].id = %d\n", id, d->philos[id].id);
-		printf("d->philos[%d].ate = %d\n", id, d->philos[id].ate);
-		printf("d->philos[%d].alive = %d\n", id, d->philos[id].alive);
-		printf("d->philos[%d].nb_meal = %d\n", id, d->philos[id].nb_meal);
-		printf("d->philos[%d].l_fork_id = %d\n", id, d->philos[id].l_fork_id);
-		printf("d->philos[%d].r_fork_id = %d\n", id, d->philos[id].r_fork_id);
-		printf("d->philos[%d].start_time = %d\n", id, d->philos[id].start_time);
-		printf("d->philos[%d].last_meal = %d\n", id, d->philos[id].last_meal);
-	}
-}
-
 unsigned int	get_time(void)
 {
 	struct timeval	s_time;
@@ -82,11 +48,12 @@ void	end_simulation(t_data *d)
 	int	id;
 
 	id = 0;
-	pthread_mutex_destroy(&d->prompt);
 	while (++id < d->nb_philo)
 	{
 		pthread_mutex_destroy(&d->forks[id]);
 	}
+	pthread_mutex_destroy(&d->prompt);
+	pthread_mutex_destroy(&d->die_prompt);
 	exit(0);
 }
 

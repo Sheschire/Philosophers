@@ -43,8 +43,9 @@ typedef struct		s_data
 	unsigned int	t_sleep;
 	unsigned int	t_start;
 	int				nb_to_eat;
-	int				everyone_alive;
 	t_philo			*philos;
+	pthread_t		monitor;
+	pthread_mutex_t	die_prompt;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prompt;
 }					t_data;
