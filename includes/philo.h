@@ -69,5 +69,6 @@ unsigned int	get_time(void);
 unsigned int	time_since_beginning(t_philo *philo);
 void	print_debug(t_data *d);
 void	usleep_opti(unsigned int ms_time);
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif

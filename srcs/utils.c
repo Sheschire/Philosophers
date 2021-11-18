@@ -47,14 +47,14 @@ void	end_simulation(t_data *d)
 {
 	int	id;
 
-	id = 0;
+	id = -1;
 	while (++id < d->nb_philo)
-	{
 		pthread_mutex_destroy(&d->forks[id]);
-	}
 	pthread_mutex_destroy(&d->prompt);
 	pthread_mutex_destroy(&d->die_prompt);
 	pthread_mutex_destroy(&d->update_nb_meal);
+	free(d->philos);
+	free(d->forks);
 	exit(0);
 }
 
@@ -86,6 +86,16 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return (nb * minus);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 int	check_arg(int ac, char **av)

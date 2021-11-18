@@ -16,12 +16,11 @@ void	prompt(t_data *d, int id, char *s)
 {
 	int	timestamp;
 
-	timestamp = get_time() - d->t_start;
 	pthread_mutex_lock(&d->prompt);
-	printf("%u ", timestamp);
-	printf("%d ", id);
-	printf("%s\n", s);
-	pthread_mutex_unlock(&d->prompt);
+	timestamp = get_time() - d->t_start;
+	printf("%u %d %s\n", timestamp, id + 1, s);
+	if (ft_strcmp(s, "died"))
+		pthread_mutex_unlock(&d->prompt);
 }
 
 void	*monitor(void *thread_philo)
@@ -32,19 +31,20 @@ void	*monitor(void *thread_philo)
 
 	philo = (t_philo *)thread_philo;
 	d = philo->d;
+	time = 0;
 	while (philo->alive)
 	{
+		pthread_mutex_lock(&d->die_prompt);
 		time = get_time();
 		if (time - philo->last_meal > d->t_die)
 		{
-			philo->alive = 0;
-			pthread_mutex_lock(&d->die_prompt);
 			prompt(d, philo->id, "died");
 			end_simulation(d);
 		}
+		pthread_mutex_unlock(&d->die_prompt);
 		if (d->g_nb_meal == d->nb_philo)
 			end_simulation(d);
-		usleep_opti(10);
+		usleep_opti(5);
 	}
 	return (NULL);
 }
@@ -78,10 +78,10 @@ void	*routine(void *thread_philo)
 		prompt(d, philo->id, "has taken a fork");
 		prompt(d, philo->id, "is eating");
 		philo->last_meal = get_time();
-		update_nb_meal(d, philo);
 	 	usleep_opti(d->t_eat);
 	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
+		update_nb_meal(d, philo);
 		prompt(d, philo->id, "is sleeping");
 		usleep_opti(d->t_sleep);
 		prompt(d, philo->id, "is thinking");
@@ -97,7 +97,7 @@ void	start_simulation(t_data *d)
 	while (++id < d->nb_philo)
 	{
 		if (id % 2 == 1)
-			usleep_opti(10);
+			usleep_opti(5);
 		if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
 			_err("Failed to create a thread. (Philos)");
 	}
