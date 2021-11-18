@@ -48,6 +48,8 @@ void	init_philos(t_data *d)
 		d->philos[id].last_meal = d->t_start;
 		if (pthread_mutex_init(&d->forks[id], NULL))
 			_err("Mutex init failed. (forks)");
+		if (pthread_mutex_init(&d->philos[id].lock_meal, NULL))
+			_err("Mutex init failed. (forks)");
 	}
 	if (pthread_mutex_init(&d->prompt, NULL))
 		_err("Mutex init failed. (prompt)");

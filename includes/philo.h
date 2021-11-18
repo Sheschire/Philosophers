@@ -30,6 +30,7 @@ typedef struct		s_philo
 	int				r_fork_id;
 	unsigned int	start_time;
 	unsigned int	last_meal;
+	pthread_mutex_t	lock_meal;
 	pthread_t		thread_id;
 	struct s_data	*d;
 }					t_philo;

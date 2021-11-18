@@ -36,11 +36,13 @@ void	*monitor(void *thread_philo)
 	{
 		pthread_mutex_lock(&d->die_prompt);
 		time = get_time();
+		pthread_mutex_lock(&philo->lock_meal);
 		if (time - philo->last_meal > d->t_die)
 		{
 			prompt(d, philo->id, "died");
 			end_simulation(d);
 		}
+		pthread_mutex_unlock(&philo->lock_meal);
 		pthread_mutex_unlock(&d->die_prompt);
 		if (d->g_nb_meal == d->nb_philo)
 			end_simulation(d);
@@ -77,7 +79,9 @@ void	*routine(void *thread_philo)
 	 	pthread_mutex_lock(&d->forks[philo->l_fork_id]);
 		prompt(d, philo->id, "has taken a fork");
 		prompt(d, philo->id, "is eating");
+		pthread_mutex_lock(&philo->lock_meal);
 		philo->last_meal = get_time();
+		pthread_mutex_unlock(&philo->lock_meal);
 	 	usleep_opti(d->t_eat);
 	 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
