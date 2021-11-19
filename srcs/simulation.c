@@ -27,23 +27,22 @@ void	*monitor(void *thread_philo)
 {
 	t_philo *philo;
 	t_data *d;
-	unsigned int time;
+	unsigned int	last_meal;
 
 	philo = (t_philo *)thread_philo;
 	d = philo->d;
-	time = 0;
+	last_meal = 0;
 	while (philo->alive)
 	{
-		pthread_mutex_lock(&d->die_prompt);
-		time = get_time();
 		pthread_mutex_lock(&philo->lock_meal);
-		if (time - philo->last_meal > d->t_die)
+		last_meal = philo->last_meal;
+		pthread_mutex_unlock(&philo->lock_meal);
+		if (get_time() - last_meal > d->t_die)
 		{
+			pthread_mutex_lock(&d->die_prompt);
 			prompt(d, philo->id, "died");
 			end_simulation(d);
 		}
-		pthread_mutex_unlock(&philo->lock_meal);
-		pthread_mutex_unlock(&d->die_prompt);
 		if (d->g_nb_meal == d->nb_philo)
 			end_simulation(d);
 		usleep_opti(5);
