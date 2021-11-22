@@ -19,7 +19,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -I./includes #-fsanitize=thread
+CFLAGS			= -Wall -Wextra -Werror -I./includes -fsanitize=thread
 PTHREAD			= -lpthread
 
 NAME			= philo

@@ -18,6 +18,7 @@ void	prompt(t_data *d, int id, char *s)
 
 	timestamp = 0;
 	pthread_mutex_lock(&d->check_end);
+	pthread_mutex_lock(&d->update_nb_meal);
 	if (d->everyone_alive && (d->g_nb_meal != d->nb_to_eat))
 	{
 		pthread_mutex_lock(&d->prompt);
@@ -25,7 +26,17 @@ void	prompt(t_data *d, int id, char *s)
 		printf("%u %d %s\n", timestamp, id + 1, s);
 		pthread_mutex_unlock(&d->prompt);
 	}
+	pthread_mutex_unlock(&d->update_nb_meal);
 	pthread_mutex_unlock(&d->check_end);
+}
+
+void	update_nb_meal(t_data *d, t_philo *philo)
+{
+	pthread_mutex_lock(&d->update_nb_meal);
+	philo->nb_meal++;
+	if (philo->nb_meal == d->nb_to_eat)
+		d->g_nb_meal++;
+	pthread_mutex_unlock(&d->update_nb_meal);
 }
 
 void	*monitor(void *thread_philo)
@@ -50,23 +61,16 @@ void	*monitor(void *thread_philo)
 		 	pthread_mutex_unlock(&d->check_end);
 		 	return (NULL);
 		}
+		pthread_mutex_lock(&d->update_nb_meal);
 		if (d->g_nb_meal == d->nb_philo)
+		{
+			pthread_mutex_unlock(&d->update_nb_meal);
 			return (NULL);
+		}
+		pthread_mutex_unlock(&d->update_nb_meal);
 		usleep_opti(5);
 	}
 	return (NULL);
-}
-
-
-void	update_nb_meal(t_data *d, t_philo *philo)
-{
-	philo->nb_meal++;
-	if (philo->nb_meal == d->nb_to_eat)
-	{
-		pthread_mutex_lock(&d->update_nb_meal);
-		d->g_nb_meal++;
-		pthread_mutex_unlock(&d->update_nb_meal);
-	}
 }
 
 void	eat_sleep_think(t_data *d, t_philo *philo)
@@ -100,11 +104,14 @@ void	*routine(void *thread_philo)
 	while (1)
 	{
 		pthread_mutex_lock(&d->check_end);
-		if (!d->everyone_alive || d->g_nb_meal == d->nb_to_eat)
+		pthread_mutex_lock(&d->update_nb_meal);
+		if (!d->everyone_alive || d->g_nb_meal >= d->nb_to_eat)
 		{
+			pthread_mutex_unlock(&d->update_nb_meal);
 			pthread_mutex_unlock(&d->check_end);
 			return (NULL);
 		}
+		pthread_mutex_unlock(&d->update_nb_meal);
 		pthread_mutex_unlock(&d->check_end);
 		eat_sleep_think(d, philo);
 	}
