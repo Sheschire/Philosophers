@@ -19,7 +19,7 @@ void	prompt(t_data *d, int id, char *s)
 	timestamp = 0;
 	pthread_mutex_lock(&d->check_end);
 	pthread_mutex_lock(&d->update_nb_meal);
-	if (d->everyone_alive && (d->g_nb_meal != d->nb_to_eat))
+	if (d->everyone_alive && d->g_nb_meal != d->nb_philo)
 	{
 		pthread_mutex_lock(&d->prompt);
 		timestamp = get_time() - d->t_start;
@@ -83,10 +83,10 @@ void	eat_sleep_think(t_data *d, t_philo *philo)
 	pthread_mutex_lock(&philo->lock_meal);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->lock_meal);
+	update_nb_meal(d, philo);
 	usleep_opti(d->t_eat);
 	pthread_mutex_unlock(&d->forks[philo->r_fork_id]);
 	pthread_mutex_unlock(&d->forks[philo->l_fork_id]);
-	update_nb_meal(d, philo);
 	prompt(d, philo->id, "is sleeping");
 	usleep_opti(d->t_sleep);
 	prompt(d, philo->id, "is thinking");
@@ -105,7 +105,7 @@ void	*routine(void *thread_philo)
 	{
 		pthread_mutex_lock(&d->check_end);
 		pthread_mutex_lock(&d->update_nb_meal);
-		if (!d->everyone_alive || d->g_nb_meal >= d->nb_to_eat)
+		if (!d->everyone_alive || (d->g_nb_meal == d->nb_philo && d->nb_to_eat != -1))
 		{
 			pthread_mutex_unlock(&d->update_nb_meal);
 			pthread_mutex_unlock(&d->check_end);
