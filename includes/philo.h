@@ -24,7 +24,6 @@ struct				s_data;
 typedef struct		s_philo
 {
 	int				id;
-	int				alive;
 	int				nb_meal;
 	int				l_fork_id;
 	int				r_fork_id;
@@ -32,6 +31,7 @@ typedef struct		s_philo
 	unsigned int	last_meal;
 	pthread_mutex_t	lock_meal;
 	pthread_t		thread_id;
+	pthread_t		monitor;
 	struct s_data	*d;
 }					t_philo;
 
@@ -44,12 +44,12 @@ typedef struct		s_data
 	unsigned int	t_start;
 	int				nb_to_eat;
 	int				g_nb_meal;
+	int				everyone_alive;
 	t_philo			*philos;
-	pthread_t		monitor;
 	pthread_mutex_t	update_nb_meal;
-	pthread_mutex_t	die_prompt;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	prompt;
+	pthread_mutex_t	check_end;
 }					t_data;
 
 // SIMULATION

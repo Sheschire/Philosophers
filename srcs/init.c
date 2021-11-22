@@ -21,6 +21,8 @@ void	init_data(t_data *d, char **av)
 	d->t_eat = ft_atoi(av[3]);
 	d->t_sleep = ft_atoi(av[4]);
 	d->nb_to_eat = -1;
+	d->g_nb_meal = 0;
+	d->everyone_alive = 1;
 	if (av[5])
 		d->nb_to_eat = ft_atoi(av[5]);
 	d->t_start = get_time();
@@ -40,7 +42,6 @@ void	init_philos(t_data *d)
 	while (++id < d->nb_philo)
 	{
 		d->philos[id].id = id;
-		d->philos[id].alive = 1;
 		d->philos[id].nb_meal = 0;
 		d->philos[id].l_fork_id = (id + 1) % d->nb_philo;
 		d->philos[id].r_fork_id = id;
@@ -49,12 +50,12 @@ void	init_philos(t_data *d)
 		if (pthread_mutex_init(&d->forks[id], NULL))
 			_err("Mutex init failed. (forks)");
 		if (pthread_mutex_init(&d->philos[id].lock_meal, NULL))
-			_err("Mutex init failed. (forks)");
+			_err("Mutex init failed. (lock_meal)");
 	}
 	if (pthread_mutex_init(&d->prompt, NULL))
 		_err("Mutex init failed. (prompt)");
-	if (pthread_mutex_init(&d->die_prompt, NULL))
-		_err("Mutex init failed. (die_prompt)");
 	if (pthread_mutex_init(&d->update_nb_meal, NULL))
 		_err("Mutex init failed. (update_nb_meal)");
+	if (pthread_mutex_init(&d->check_end, NULL))
+		_err("Mutex init failed. (check_end)");
 }

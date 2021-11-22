@@ -49,10 +49,13 @@ void	end_simulation(t_data *d)
 
 	id = -1;
 	while (++id < d->nb_philo)
+	{
 		pthread_mutex_destroy(&d->forks[id]);
+		pthread_mutex_destroy(&d->philos[id].lock_meal);
+	}
 	pthread_mutex_destroy(&d->prompt);
-	pthread_mutex_destroy(&d->die_prompt);
 	pthread_mutex_destroy(&d->update_nb_meal);
+	pthread_mutex_destroy(&d->check_end);
 	free(d->philos);
 	free(d->forks);
 	exit(0);

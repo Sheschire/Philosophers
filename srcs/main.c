@@ -27,8 +27,9 @@ int main(int ac, char **av)
 	{
 		if (pthread_join(d.philos[id].thread_id, NULL))
 	 		_err("Failed in joining thread. (Philos)");
-		if (pthread_join(d.monitor, NULL))
+		if (pthread_join(d.philos[id].monitor, NULL))
 	 		_err("Failed in joining thread. (Monitor)");
 	}
+	end_simulation(&d);
 	return (0);
 }
