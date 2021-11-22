@@ -30,46 +30,18 @@ void	prompt(t_data *d, int id, char *s)
 	pthread_mutex_unlock(&d->check_end);
 }
 
-void	update_nb_meal(t_data *d, t_philo *philo)
-{
-	pthread_mutex_lock(&d->update_nb_meal);
-	philo->nb_meal++;
-	if (philo->nb_meal == d->nb_to_eat)
-		d->g_nb_meal++;
-	pthread_mutex_unlock(&d->update_nb_meal);
-}
-
 void	*monitor(void *thread_philo)
 {
-	t_philo *philo;
-	t_data *d;
+	t_philo			*philo;
+	t_data			*d;
 	unsigned int	last_meal;
 
 	philo = (t_philo *)thread_philo;
 	d = philo->d;
 	last_meal = 0;
 	while (1)
-	{
-		pthread_mutex_lock(&philo->lock_meal);
-		last_meal = philo->last_meal;
-		pthread_mutex_unlock(&philo->lock_meal);
-		if (get_time() - last_meal > d->t_die)
-		{
-			prompt(d, philo->id, "died");
-		 	pthread_mutex_lock(&d->check_end);
-		 	d->everyone_alive = 0;
-		 	pthread_mutex_unlock(&d->check_end);
-		 	return (NULL);
-		}
-		pthread_mutex_lock(&d->update_nb_meal);
-		if (d->g_nb_meal == d->nb_philo)
-		{
-			pthread_mutex_unlock(&d->update_nb_meal);
+		if (!check_end_monitor(d, philo))
 			return (NULL);
-		}
-		pthread_mutex_unlock(&d->update_nb_meal);
-		usleep_opti(5);
-	}
 	return (NULL);
 }
 
@@ -95,24 +67,21 @@ void	eat_sleep_think(t_data *d, t_philo *philo)
 void	*routine(void *thread_philo)
 {
 	t_philo	*philo;
-	t_data *d;
+	t_data	*d;
 
 	philo = (t_philo *)thread_philo;
 	d = philo->d;
 	if (pthread_create(&philo->monitor, NULL, &monitor, philo))
-			_err("Failed to create a thread. (Monitor)");
+		_err("Failed to create a thread. (Monitor)");
+	if (d->nb_philo == 1)
+	{
+		printf("%u 1 has taken a fork\n", get_time() - d->t_start);
+		return (NULL);
+	}
 	while (1)
 	{
-		pthread_mutex_lock(&d->check_end);
-		pthread_mutex_lock(&d->update_nb_meal);
-		if (!d->everyone_alive || (d->g_nb_meal == d->nb_philo && d->nb_to_eat != -1))
-		{
-			pthread_mutex_unlock(&d->update_nb_meal);
-			pthread_mutex_unlock(&d->check_end);
+		if (!check_end_philo(d))
 			return (NULL);
-		}
-		pthread_mutex_unlock(&d->update_nb_meal);
-		pthread_mutex_unlock(&d->check_end);
 		eat_sleep_think(d, philo);
 	}
 	return (NULL);
@@ -127,7 +96,8 @@ void	start_simulation(t_data *d)
 	{
 		if (id % 2 == 1)
 			usleep_opti(5);
-		if (pthread_create(&d->philos[id].thread_id, NULL, &routine, (void *)&(d->philos[id])))
+		if (pthread_create(&d->philos[id].thread_id, NULL, \
+		&routine, (void *)&(d->philos[id])))
 			_err("Failed to create a thread. (Philos)");
 	}
 }

@@ -18,10 +18,11 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdio.h>
+# include <limits.h>
 
 struct				s_data;
 
-typedef struct		s_philo
+typedef struct s_philo
 {
 	int				id;
 	int				nb_meal;
@@ -35,7 +36,7 @@ typedef struct		s_philo
 	struct s_data	*d;
 }					t_philo;
 
-typedef struct		s_data
+typedef struct s_data
 {
 	int				nb_philo;
 	unsigned int	t_die;
@@ -53,23 +54,29 @@ typedef struct		s_data
 }					t_data;
 
 // SIMULATION
-void	start_simulation(t_data *d);
-void	end_simulation(t_data *d);
+void			start_simulation(t_data *d);
+void			end_simulation(t_data *d);
+void			prompt(t_data *d, int id, char *s);
+
+// SIMULATION UTILS
+void			update_nb_meal(t_data *d, t_philo *philo);
+int				check_end_philo(t_data *d);
+int				check_end_monitor(t_data *d, t_philo *philo);
 
 // INIT
-void	init_data(t_data *d, char **av);
-void	init_philos(t_data *d);
+void			init_data(t_data *d, char **av);
+void			init_philos(t_data *d);
 
 // UTILS
-int	check_arg(int ac, char **av);
-int	ft_atoi(const char *str);
-int	ft_isdigit(int c);
-void	_err();
-void	_putstr(char *s);
+int				check_arg(int ac, char **av);
+int				ft_atoi(const char *str);
+int				ft_isdigit(int c);
+void			_err(char *s);
+void			_putstr(char *s);
 unsigned int	get_time(void);
 unsigned int	time_since_beginning(t_philo *philo);
-void	print_debug(t_data *d);
-void	usleep_opti(unsigned int ms_time);
-int	ft_strcmp(const char *s1, const char *s2);
+void			print_debug(t_data *d);
+void			usleep_opti(unsigned int ms_time);
+int				ft_strcmp(const char *s1, const char *s2);
 
 #endif

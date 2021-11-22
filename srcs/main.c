@@ -12,10 +12,10 @@
 
 #include "../includes/philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_data	d;
-	int	id;
+	int		id;
 
 	id = -1;
 	if (!check_arg(ac, av))
@@ -26,9 +26,9 @@ int main(int ac, char **av)
 	while (++id < d.nb_philo)
 	{
 		if (pthread_join(d.philos[id].thread_id, NULL))
-	 		_err("Failed in joining thread. (Philos)");
+			_err("Failed in joining thread. (Philos)");
 		if (pthread_join(d.philos[id].monitor, NULL))
-	 		_err("Failed in joining thread. (Monitor)");
+			_err("Failed in joining thread. (Monitor)");
 	}
 	end_simulation(&d);
 	return (0);

@@ -13,13 +13,15 @@
 SRCS			= srcs/main.c\
 				  srcs/utils.c\
 				  srcs/simulation.c\
+				  srcs/simulation_utils.c\
+				  srcs/time_utils.c\
 				  srcs/init.c
 
 OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -I./includes #-fsanitize=thread
+CFLAGS			= -Wall -Wextra -Werror -I./includes -fsanitize=thread
 PTHREAD			= -lpthread
 
 NAME			= philo

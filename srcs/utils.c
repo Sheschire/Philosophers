@@ -12,52 +12,9 @@
 
 #include "../includes/philo.h"
 
-unsigned int	get_time(void)
-{
-	struct timeval	s_time;
-	unsigned int	time;
-	
-	time = (unsigned int)gettimeofday(&s_time, NULL);
-	time = (unsigned int)s_time.tv_sec * 1000 + (unsigned int)s_time.tv_usec / 1000;
-	return (time);
-}
-
-unsigned int	time_since_beginning(t_philo *philo)
-{
-	return (get_time() - philo->start_time);
-}
-
-void	usleep_opti(unsigned int ms_time)
-{
-	unsigned int start;
-
-    start = 0;
-    start = get_time();
-    while ((get_time() - start) < ms_time)
-        usleep(ms_time / 10);
-}
-
 void	_err(char *s)
 {
 	printf("Error\n%s\n", s);
-	exit(0);
-}
-
-void	end_simulation(t_data *d)
-{
-	int	id;
-
-	id = -1;
-	while (++id < d->nb_philo)
-	{
-		pthread_mutex_destroy(&d->forks[id]);
-		pthread_mutex_destroy(&d->philos[id].lock_meal);
-	}
-	pthread_mutex_destroy(&d->prompt);
-	pthread_mutex_destroy(&d->update_nb_meal);
-	pthread_mutex_destroy(&d->check_end);
-	free(d->philos);
-	free(d->forks);
 	exit(0);
 }
 
@@ -105,7 +62,7 @@ int	check_arg(int ac, char **av)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	if (ac < 5 || ac > 6)
 		return (0);

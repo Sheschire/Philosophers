@@ -15,9 +15,11 @@
 void	init_data(t_data *d, char **av)
 {
 	d->nb_philo = ft_atoi(av[1]);
-	if (d->nb_philo > 200)
-		_err("Too many Philosophers for the simulation.");
+	if (d->nb_philo > 200 || d->nb_philo == 0)
+		_err("Wrong amount Philosophers for the simulation.");
 	d->t_die = ft_atoi(av[2]);
+	if (d->t_die == 0)
+		_err("Time of death can't be equal to 0.");
 	d->t_eat = ft_atoi(av[3]);
 	d->t_sleep = ft_atoi(av[4]);
 	d->nb_to_eat = -1;
